@@ -36,4 +36,9 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
+    // 주문상태 업데이트
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
 }
