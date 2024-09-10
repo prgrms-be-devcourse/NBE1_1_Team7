@@ -6,8 +6,8 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 ## 1️⃣ 개발 
 
 ## 2️⃣ 산출물
-- [1차 팀 프로젝트 기획서(개인)]()
-- [1차 팀 프로젝트 기획서(팀)]()
+- [1차 팀 프로젝트 기획서(개인)](https://www.notion.so/1-6a44ad3e0caa4527b66969b9e3e58669)
+- [1차 팀 프로젝트 기획서(팀)](https://www.notion.so/1-4-5-c364d76ab3464a8e9f46174c9428f457)
 
 ## 3️⃣ 프로젝트 협업 규칙 
 - [브랜치, 풀리퀘스트 전략](docs/Branch%20strategy%20and%20pull-quest.md)
