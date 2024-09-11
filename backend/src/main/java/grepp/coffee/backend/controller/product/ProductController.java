@@ -69,5 +69,11 @@ public class ProductController {
         productService.discountCategoryProduct(category, discount);
         return ResponseEntity.ok().build();
     }
+
+    //인기 상품 목록 조회
+    @GetMapping("/pop")
+    public ResponseEntity<List<Product>> readTop10Products() {
+        return ResponseEntity.ok().body(productService.readTop10Products());
+    }
 }
 

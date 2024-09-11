@@ -91,6 +91,11 @@ public class ProductService {
         });
     }
 
+    //인기 상품 목록 조회
+    public List<Product> readTop10Products() {
+        return productRepository.findTop10ByOrderCountDesc();
+    }
+
     private void validateDiscount(Product product, int discount) {
         if (product.getPrice() < discount) {
             throw new ProductException(ExceptionMessage.PRODUCT_DISCOUNT_BAE_REQUEST);
