@@ -55,5 +55,11 @@ public class ProductController {
     public ResponseEntity<List<Product>> readProductsByCategory(@PathVariable Category category) {
         return ResponseEntity.ok().body(productService.readProductsByCategory(category));
     }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<Void> discountProduct(@PathVariable Long productId, @RequestParam("discount") int discount) {
+        productService.discountProduct(productId, discount);
+        return ResponseEntity.ok().build();
+    }
 }
 

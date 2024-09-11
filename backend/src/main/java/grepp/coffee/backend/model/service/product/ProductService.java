@@ -70,6 +70,13 @@ public class ProductService {
         return productRepository.findByCategory(category);
     }
 
+    //상품 할인
+    @Transactional
+    public void discountProduct(Long productId, int discount) {
+        Product product = findByIdOrThrowProductException(productId);
+        product.setDiscount(discount);
+    }
+
     // 상품 조회 예외처리
     public Product findByIdOrThrowProductException(Long productId) {
         return productRepository.findById(productId)
