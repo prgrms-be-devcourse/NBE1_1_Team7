@@ -42,9 +42,9 @@ Coffe Bean package를 온라인 웹 사이트로 주문합니다. 매일 전날 
 ## Appendix A. 참여자
 | 이름  | Github | 역할 | 비고 |
 | --- | --- | --- | --- |
-| 김수민 | --- | --- | --- |
-| 노관태 | --- | --- | --- |
-| 류희수 | --- | --- | --- |
-| 양아영 | --- | --- | --- |
-| 윤건우 | --- | --- | --- |
-| 이정우 | --- | --- | --- |
+| 김수민 | https://github.com/tnals2384 | --- | --- |
+| 노관태 | https://github.com/Repaion24 | --- | --- |
+| 류희수 | https://github.com/hs201016 | --- | --- |
+| 양아영 | https://github.com/ayoung-dev | --- | --- |
+| 윤건우 | https://github.com/oo-ni | --- | --- |
+| 이정우 | https://github.com/j-ra1n | --- | 프로젝트 BaseCode 제공 |
