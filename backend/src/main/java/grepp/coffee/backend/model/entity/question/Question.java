@@ -1,7 +1,6 @@
 package grepp.coffee.backend.model.entity.question;
 
 import grepp.coffee.backend.model.entity.BaseEntity;
-import grepp.coffee.backend.model.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,9 +18,8 @@ public class Question extends BaseEntity {
     @Column(name = "QUESTION_ID")
     private Long questionId;
 
-    @ManyToOne
     @JoinColumn(name = "MEMBER_ID", nullable = false)
-    private Member member;
+    private Long memberId;
 
     @Column(name = "QUESTION", length = 200, nullable = false)
     private String question;
@@ -30,8 +28,8 @@ public class Question extends BaseEntity {
     private String answer;
 
     @Builder
-    public Question(Member member, String question, String answer) {
-        this.member = member;
+    public Question(Long memberId, String question, String answer) {
+        this.memberId = memberId;
         this.question = question;
         this.answer = answer;
     }
