@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/coffee_Backend?serverTimezone=Asia/Seoul
-    username: jw
-    password: wjddn0922
+    url: jdbc:mysql://localhost:3306/coffee_Backend?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 3787
 
   jpa:
     hibernate:
@@ -11,5 +11,5 @@ spring:
     show-sql: true
     properties:
       hibernate:
-      format_sql: true
-      dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
