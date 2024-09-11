@@ -77,6 +77,13 @@ public class ProductService {
         product.setDiscount(discount);
     }
 
+    //카테고리로 상품 할인
+    @Transactional
+    public void discountCategoryProduct(Category category, int discount) {
+        List<Product> categoryProducts = productRepository.findByCategory(category);
+        categoryProducts.forEach(product -> product.setDiscount(discount));
+    }
+
     // 상품 조회 예외처리
     public Product findByIdOrThrowProductException(Long productId) {
         return productRepository.findById(productId)
