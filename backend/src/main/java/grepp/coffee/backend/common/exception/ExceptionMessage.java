@@ -21,6 +21,9 @@ public enum ExceptionMessage {
     // Member
     MEMBER_NOT_FOUND("해당 사용자를 찾을 수 없습니다."),
 
+    // Question
+    QUESTION_NOT_FOUND("해당 FAQ를 찾을 수 없습니다."),
+
     // Cart
     CART_NOT_FOUND("해당 장바구니를 찾을 수 없습니다."),
 
