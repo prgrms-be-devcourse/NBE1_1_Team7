@@ -61,4 +61,12 @@ public class Product extends BaseEntity {
     public void setDiscount(int discount) {
         this.discount = discount;
     }
+
+    public void increaseOrderCount(int quantity) {
+        this.orderCount += quantity;
+    }
+
+    public void decreaseOrderCount(int quantity) {
+        this.orderCount-= quantity;
+    }
 }

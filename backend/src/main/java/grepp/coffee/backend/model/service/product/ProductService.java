@@ -4,6 +4,7 @@ import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.product.ProductException;
 import grepp.coffee.backend.controller.product.request.ProductRegisterRequest;
 import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
+import grepp.coffee.backend.model.entity.orderitem.OrderItem;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
 import grepp.coffee.backend.model.repository.product.ProductRepository;
@@ -100,6 +101,13 @@ public class ProductService {
         if (product.getPrice() < discount) {
             throw new ProductException(ExceptionMessage.PRODUCT_DISCOUNT_BAE_REQUEST);
         }
+    }
+
+    public void decreaseProductOrderCount(List<OrderItem> orderItems) {
+        orderItems.forEach(orderItem -> {
+            Product product = orderItem.getProduct();
+            product.decreaseOrderCount(orderItem.getQuantity());
+        });
     }
 
     // 상품 조회 예외처리
