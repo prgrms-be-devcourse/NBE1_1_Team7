@@ -1,9 +1,0 @@
-# 서버 포트 번호
-server:
-  port: 8081
-
-spring:
-  application:
-    name: coffee_Backend
-  config:
-    import: database.yml
