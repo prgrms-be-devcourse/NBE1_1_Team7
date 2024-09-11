@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/coffee?serverTimezone=Asia/Seoul
+    username: root
+    password: 11111111
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQL8Dialect
