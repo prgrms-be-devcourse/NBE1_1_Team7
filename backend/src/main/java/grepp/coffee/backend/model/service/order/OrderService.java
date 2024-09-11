@@ -62,9 +62,6 @@ public class OrderService {
             // 상품 조회
             Product product = productService.findByIdOrThrowProductException(itemRequest.getProductId());
 
-            //주문수량 증가
-            product.increaseOrderCount(itemRequest.getQuantity());
-
             // OrderItem 생성
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
@@ -91,16 +88,10 @@ public class OrderService {
         List<OrderItem> existingOrderItems = orderItemRepository.findByOrder(order);
         orderItemRepository.deleteAll(existingOrderItems);
 
-        // 기존 주문 수량 감소
-        productService.decreaseProductOrderCount(existingOrderItems);
-
         // 새로운 주문 항목 저장
         for (OrderItemRequest itemRequest : request.getUpdatedOrderItems()) {
             // 상품 조회
             Product product = productService.findByIdOrThrowProductException(itemRequest.getProductId());
-
-            //주문수량 증가
-            product.increaseOrderCount(itemRequest.getQuantity());
 
             // 새로운 OrderItem 생성 및 저장
             OrderItem updatedOrderItem = OrderItem.builder()
@@ -123,10 +114,6 @@ public class OrderService {
         if (!order.getOrderStatus().equals(PENDING)) {
             throw new OrderException(ExceptionMessage.ORDER_STATUS_NOT_FENDING);
         }
-
-        // 주문 수량 감소
-        List<OrderItem> oderItems = orderItemRepository.findByOrder(order);
-        productService.decreaseProductOrderCount(oderItems);
 
         orderRepository.delete(order);
     }

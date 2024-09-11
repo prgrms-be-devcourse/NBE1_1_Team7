@@ -29,7 +29,7 @@ public class Review extends BaseEntity {
     @Column(name = "REVIEW", length = 200)
     private String review;
 
-    @Column(name = "RATING", nullable = false, columnDefinition = "int default 0")
+    @Column(name = "RATING", nullable = false)
     private int rating;
 
     @Builder
@@ -38,9 +38,5 @@ public class Review extends BaseEntity {
         this.member = member;
         this.review = review;
         this.rating = rating;
-    }
-
-    public void updateReview(String review) {
-        this.review = review;
     }
 }

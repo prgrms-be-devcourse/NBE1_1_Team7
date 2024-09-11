@@ -17,8 +17,6 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 /src/main/generated/
-/src/main/resources/application.yml
-/src/main/resources/database.yml
 
 ### IntelliJ IDEA ###
 .idea

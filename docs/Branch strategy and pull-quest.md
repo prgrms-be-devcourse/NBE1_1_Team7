@@ -23,7 +23,7 @@
 ### `issue`
 
 - 이슈를 만들 때 issue 탬플릿을 사용하여 이슈의 내용과 체크리스트를 작성하고 제목은 추가하려는 기능을 간략하게 나타냅니다.  ex) PDF View 추가
-- 이슈에 맞는 적절한 Label을 지정하고 Project에서 Team_07_Kanban를 선택합니다.
+- 이슈에 맞는 적절한 Label을 지정하고 Project에서 PDF_Viewer_Client를 선택합니다.
   
 <img width="795" alt="image" src="https://user-images.githubusercontent.com/41673190/163109215-a99b4d4e-6b74-4f75-9799-978ed27bbb9d.png">
 <br>
