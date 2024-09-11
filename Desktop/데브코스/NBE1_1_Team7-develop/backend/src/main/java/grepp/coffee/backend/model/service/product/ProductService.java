@@ -8,6 +8,7 @@ import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
 import grepp.coffee.backend.model.repository.product.ProductRepository;
+import grepp.coffee.backend.model.repository.review.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ReviewRepository reviewRepository;
 
     // 상품 전체 조회
     public List<Product> readProductList() {
@@ -33,12 +35,15 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException(productId + "의 id를 찾지 못했습니다."));
 
+        Double averageRating = reviewRepository.findAverageRatingByProductId(productId);
+
         return ProductDetailResponse.builder()
                 .productName(product.getProductName())
                 .category(product.getCategory())
                 .price(product.getPrice())
                 .description(product.getDescription())
                 .discount(product.getDiscount())
+                .averageRating(averageRating) // 평점 추가
                 .build();
     }
     // 상품 등록
