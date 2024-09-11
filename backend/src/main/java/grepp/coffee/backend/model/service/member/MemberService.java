@@ -2,6 +2,7 @@ package grepp.coffee.backend.model.service.member;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.order.OrderException;
+import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.entity.order.Order;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 
 import static grepp.coffee.backend.model.entity.order.constant.OrderStatus.PENDING;
 
@@ -33,6 +36,21 @@ public class MemberService {
                 .address(request.getAddress())
                 .build();
         memberRepository.save(member);
+    }
+
+    //로그인
+    @Transactional
+    public Member login(MemberLoginRequest request) {
+
+        //회원 정보 조회
+        Member member = memberRepository.findByEmail(request.getEmail());
+        String password = (member == null) ? "" : Arrays.toString(member.getPassword());
+
+        //비밀번호 일치 시 회원 정보 리턴
+        if (member != null || Arrays.toString(request.getPassword()).equals(password))
+            return member;
+
+        return null;
     }
 
 

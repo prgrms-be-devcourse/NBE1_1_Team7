@@ -1,17 +1,23 @@
 package grepp.coffee.backend.controller.member;
 
+import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.member.MemberException;
+import grepp.coffee.backend.common.exception.order.OrderException;
+import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
 import grepp.coffee.backend.controller.order.request.OrderRegisterRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.service.member.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,6 +31,31 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Void> registerMember(@Valid @RequestBody MemberRegisterRequest request) {
         memberService.registertMember(request);
+        return ResponseEntity.ok().build();
+    }
+
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity<Member> login(HttpServletRequest httpServletRequest,
+                        @Valid @RequestBody MemberLoginRequest request) {
+
+        Member member = memberService.login(request);
+
+        if (member != null) {
+            HttpSession session = httpServletRequest.getSession();
+            session.setAttribute("loginMember", member);
+            session.setMaxInactiveInterval(60 * 10);
+            return ResponseEntity.ok().body(member);
+
+        } else {
+            throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+        }
+    }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session) {
+        session.invalidate();
         return ResponseEntity.ok().build();
     }
 }
