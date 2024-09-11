@@ -2,6 +2,7 @@ package grepp.coffee.backend.controller.member;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.member.MemberException;
+import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
 import grepp.coffee.backend.model.entity.member.Member;
@@ -37,15 +38,15 @@ public class MemberController {
 
         Member member = memberService.login(request);
 
-        if (member != null) {
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("loginMember", member);
-            session.setMaxInactiveInterval(60 * 10);
-            return ResponseEntity.ok().body(member);
-
-        } else {
-            throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+        if(member == null) {
+            throw new OrderException(ExceptionMessage.MEMBER_LOGIN_FAIL);
         }
+
+        HttpSession session = httpServletRequest.getSession();
+        session.setAttribute("loginMember", member);
+        session.setMaxInactiveInterval(60 * 10);
+        return ResponseEntity.ok().body(member);
+
     }
 
     //로그아웃
