@@ -1,7 +1,9 @@
 package grepp.coffee.backend.model.service.question;
 
+import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.question.QuestionException;
 import grepp.coffee.backend.controller.question.request.QuestionRegisterRequest;
-import grepp.coffee.backend.model.entity.product.Product;
+import grepp.coffee.backend.controller.question.request.QuestionUpdateRequest;
 import grepp.coffee.backend.model.entity.question.Question;
 import grepp.coffee.backend.model.repository.question.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +32,35 @@ public class QuestionService {
                 .answer(request.getAnswer())
                 .build();
         questionRepository.save(question);
+    }
+
+    //질문 수정
+    @Transactional
+    public void updateQuestion(Long questionId, QuestionUpdateRequest request) {
+        // 질문 조회
+        Question question = findByIdOrThrowQuestionException(questionId);
+        // 수정된 정보를 반영
+        question.updateQuestion(
+                request.getQuestion(),
+                request.getAnswer()
+        );
+    }
+
+
+    //질문 삭제
+    @Transactional
+    public void deleteQuestion(Long questionId) {
+        Question question = findByIdOrThrowQuestionException(questionId);
+        questionRepository.delete(question);
+    }
+
+
+    // 질문 조회 예외처리
+    public Question findByIdOrThrowQuestionException(Long questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> {
+                    log.warn(">>>> {} : {} <<<<", questionId, ExceptionMessage.QUESTION_NOT_FOUND);
+                    return new QuestionException(ExceptionMessage.QUESTION_NOT_FOUND);
+                });
     }
 }

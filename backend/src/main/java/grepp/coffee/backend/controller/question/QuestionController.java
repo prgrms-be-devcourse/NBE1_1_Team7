@@ -1,8 +1,8 @@
 package grepp.coffee.backend.controller.question;
 
 import grepp.coffee.backend.controller.question.request.QuestionRegisterRequest;
+import grepp.coffee.backend.controller.question.request.QuestionUpdateRequest;
 import grepp.coffee.backend.model.entity.question.Question;
-import grepp.coffee.backend.model.service.product.ProductService;
 import grepp.coffee.backend.model.service.question.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,22 @@ public class QuestionController {
     @PostMapping("/")
     public ResponseEntity<Void> createQuestion(@Valid @RequestBody QuestionRegisterRequest question) {
         questionService.createQuestion(question);
+        return ResponseEntity.ok().build();
+    }
+
+    // QNA 수정
+    @PutMapping("/{questionId}")
+    public ResponseEntity<Void> updateQuestion(@PathVariable(name = "questionId") Long questionId,
+                                               @Valid @RequestBody QuestionUpdateRequest question){
+        questionService.updateQuestion(questionId, question);
+        return ResponseEntity.ok().build();
+    }
+
+
+    // QNA 삭제
+    @DeleteMapping("/{questionId}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable(name = "questionId") Long questionId) {
+        questionService.deleteQuestion(questionId);
         return ResponseEntity.ok().build();
     }
 }

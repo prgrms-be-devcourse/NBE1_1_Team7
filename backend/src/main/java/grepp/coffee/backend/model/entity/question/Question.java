@@ -33,4 +33,8 @@ public class Question extends BaseEntity {
         this.question = question;
         this.answer = answer;
     }
+    public void updateQuestion(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
 }
