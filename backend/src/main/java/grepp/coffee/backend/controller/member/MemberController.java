@@ -2,10 +2,8 @@ package grepp.coffee.backend.controller.member;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.member.MemberException;
-import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
-import grepp.coffee.backend.controller.order.request.OrderRegisterRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,5 +53,23 @@ public class MemberController {
     public ResponseEntity<Void> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok().build();
+    }
+
+    //마이페이지
+    @GetMapping("/mypage")
+    public ResponseEntity<Member> getMemberInfo(HttpSession session) {
+
+        // 세션에서 로그인된 회원 정보 가져오기
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            throw new MemberException(ExceptionMessage.MEMBER_NOT_LOGIN);
+        }
+
+        // 로그인된 회원의 ID로 회원 정보 조회
+        Member member = memberService.findByIdOrThrowMemberException(loginMember.getMemberId());
+
+        return ResponseEntity.ok().body(member);
+
     }
 }
