@@ -17,7 +17,7 @@ public enum ExceptionMessage {
 
     // Review
     REVIEW_NOT_FOUND("해당 리뷰를 찾을 수 없습니다."),
-
+  
     // Member
     MEMBER_NOT_FOUND("해당 사용자를 찾을 수 없습니다."),
 
@@ -25,10 +25,8 @@ public enum ExceptionMessage {
     QUESTION_NOT_FOUND("해당 FAQ를 찾을 수 없습니다."),
 
     // Cart
-    CART_NOT_FOUND("해당 장바구니를 찾을 수 없습니다."),
+    CART_NOT_FOUND("해당 장바구니를 찾을 수 없습니다.")
 
-    // Question
-    QUESTION_NOT_FOUND("해당 FAQ를 찾을 수 없습니다."),
     ;
 
     private final String text;
