@@ -74,6 +74,9 @@ public class ProductService {
     @Transactional
     public void discountProduct(Long productId, int discount) {
         Product product = findByIdOrThrowProductException(productId);
+
+        //할인 가격이 원래 금액보다 클 경우를 검사
+        validateDiscount(product, discount);
         product.setDiscount(discount);
     }
 
@@ -81,7 +84,17 @@ public class ProductService {
     @Transactional
     public void discountCategoryProduct(Category category, int discount) {
         List<Product> categoryProducts = productRepository.findByCategory(category);
-        categoryProducts.forEach(product -> product.setDiscount(discount));
+        categoryProducts.forEach(product -> {
+            //할인 가격이 원래 금액보다 클 경우를 검사
+            validateDiscount(product, discount);
+            product.setDiscount(discount);
+        });
+    }
+
+    private void validateDiscount(Product product, int discount) {
+        if (product.getPrice() < discount) {
+            throw new ProductException(ExceptionMessage.PRODUCT_DISCOUNT_BAE_REQUEST);
+        }
     }
 
     // 상품 조회 예외처리

@@ -9,6 +9,7 @@ public enum ExceptionMessage {
 
     // Product
     PRODUCT_NOT_FOUND("해당 상품을 찾을 수 없습니다."),
+    PRODUCT_DISCOUNT_BAE_REQUEST("상품 가격보다 큰 할인 가격은 적용할 수 없습니다."),
 
 
     // Order
