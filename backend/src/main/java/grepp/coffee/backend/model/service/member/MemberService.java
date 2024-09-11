@@ -5,6 +5,7 @@ import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
+import grepp.coffee.backend.controller.member.request.MemberUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,28 @@ public class MemberService {
             return member;
 
         return null;
+    }
+
+    //회원 정보 수정
+    @Transactional
+    public Member updateMember(Long id, MemberUpdateRequest request) {
+
+        // 회원 정보 조회
+        Member member = findByIdOrThrowMemberException(id);
+
+        System.out.println(member);
+
+        // member 정보 업데이트
+        member = Member.builder()
+                .memberId(id)
+                .email(member.getEmail())
+                .password(request.getPassword())
+                .address(request.getAddress())
+                .postcode(request.getPostcode())
+                .build();
+
+        // 변경된 회원 정보 저장
+        return memberRepository.save(member);
     }
 
 

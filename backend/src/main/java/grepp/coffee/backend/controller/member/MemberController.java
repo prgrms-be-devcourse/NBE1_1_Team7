@@ -5,6 +5,7 @@ import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
+import grepp.coffee.backend.controller.member.request.MemberUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,5 +73,22 @@ public class MemberController {
 
         return ResponseEntity.ok().body(member);
 
+    }
+
+    @PutMapping("/mypage")
+    public ResponseEntity<Member> updateMemberInfo(HttpSession session,
+                                         @Valid @RequestBody MemberUpdateRequest request) {
+
+        // 세션에서 로그인된 회원 정보 가져오기
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            throw new MemberException(ExceptionMessage.MEMBER_NOT_LOGIN);
+        }
+
+        // 회원 정보 업데이트
+        Member member = memberService.updateMember(loginMember.getMemberId(), request);
+
+        return ResponseEntity.ok().body(member);
     }
 }
