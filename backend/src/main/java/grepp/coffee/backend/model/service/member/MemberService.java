@@ -57,7 +57,7 @@ public class MemberService {
         String password = (member == null) ? "" : Arrays.toString(member.getPassword());
 
         //비밀번호 일치 시 회원 정보 리턴
-        if (member != null || Arrays.toString(request.getPassword()).equals(password))
+        if (member != null && Arrays.toString(request.getPassword()).equals(password))
             return member;
 
         return null;
