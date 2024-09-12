@@ -2,6 +2,7 @@ package grepp.coffee.backend.model.service.question;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.question.QuestionException;
+import grepp.coffee.backend.controller.question.request.QuestionDeleteRequest;
 import grepp.coffee.backend.controller.question.request.QuestionRegisterRequest;
 import grepp.coffee.backend.controller.question.request.QuestionUpdateRequest;
 import grepp.coffee.backend.model.entity.question.Question;
@@ -27,7 +28,7 @@ public class QuestionService {
     @Transactional
     public void createQuestion(QuestionRegisterRequest request) {
         Question question = Question.builder()
-                .memberId((long)1)  //임시로 admin의 memberId는 1이라고 가정
+                .memberId(request.getMemberId())
                 .question(request.getQuestion())
                 .answer(request.getAnswer())
                 .build();
@@ -39,6 +40,12 @@ public class QuestionService {
     public void updateQuestion(Long questionId, QuestionUpdateRequest request) {
         // 질문 조회
         Question question = findByIdOrThrowQuestionException(questionId);
+
+        if(!request.getMemberId().equals(question.getMemberId())) {
+            log.warn(">>>> {} : {} <<<<", questionId, ExceptionMessage.QUESTION_NOT_WRITTEN_BY_MEMBER);
+            throw new QuestionException(ExceptionMessage.QUESTION_NOT_WRITTEN_BY_MEMBER);
+        }
+
         // 수정된 정보를 반영
         question.updateQuestion(
                 request.getQuestion(),
@@ -49,8 +56,12 @@ public class QuestionService {
 
     //질문 삭제
     @Transactional
-    public void deleteQuestion(Long questionId) {
+    public void deleteQuestion(Long questionId, QuestionDeleteRequest request) {
         Question question = findByIdOrThrowQuestionException(questionId);
+        if(!request.getMemberId().equals(question.getMemberId())) {
+            log.warn(">>>> {} : {} <<<<", questionId, ExceptionMessage.QUESTION_NOT_WRITTEN_BY_MEMBER);
+            throw new QuestionException(ExceptionMessage.QUESTION_NOT_WRITTEN_BY_MEMBER);
+        }
         questionRepository.delete(question);
     }
 

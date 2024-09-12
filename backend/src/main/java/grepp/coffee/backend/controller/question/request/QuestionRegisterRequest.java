@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QuestionRegisterRequest {
     @NotNull
+    private Long memberId;
+
+    @NotNull
     @Size(max = 200, message = "질문 내용 200자 이내")
     private String question;
 
