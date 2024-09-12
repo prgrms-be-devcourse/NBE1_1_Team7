@@ -13,7 +13,4 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     // 사용자의 장바구니 목록을 조회하는 메서드
     List<Cart> findByMember(Member member);
-
-    // 멤버 및 상품 가져오는 메서드
-    Cart findByMemberAndProduct(Member member, Product product);
 }

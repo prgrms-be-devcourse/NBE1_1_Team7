@@ -74,13 +74,16 @@ public class CartService {
 
     // 주문 처리 시, 장바구니 자동 삭제
     @Transactional
-    public void deleteCartByOrder(Long memberId, Long productId) {
+    public void deleteCartByOrder(Long memberId) {
         Member member = memberService.findByIdOrThrowMemberException(memberId);
-        Product product = productService.findByIdOrThrowProductException(productId);
+        List<Cart> cartItems = cartRepository.findByMember(member);
 
-        Cart cart = cartRepository.findByMemberAndProduct(member, product);
+        if (cartItems.isEmpty()) {
+            throw new CartException(ExceptionMessage.CART_NOT_FOUND);
+        }
 
-        cartRepository.delete(cart);
+        // 모든 장바구니 항목 삭제
+        cartRepository.deleteAll(cartItems);
     }
 
     // 장바구니 조회 예외처리
