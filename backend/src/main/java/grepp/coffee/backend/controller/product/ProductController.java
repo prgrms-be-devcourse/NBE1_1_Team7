@@ -55,5 +55,25 @@ public class ProductController {
     public ResponseEntity<List<Product>> readProductsByCategory(@PathVariable Category category) {
         return ResponseEntity.ok().body(productService.readProductsByCategory(category));
     }
+
+    //상품 할인 적용
+    @PatchMapping("/{productId}")
+    public ResponseEntity<Void> discountProduct(@PathVariable Long productId, @RequestParam("discount") int discount) {
+        productService.discountProduct(productId, discount);
+        return ResponseEntity.ok().build();
+    }
+
+    //카테고리별 상품 할인 적용
+    @PatchMapping("/category/{category}")
+    public ResponseEntity<Void> discountCategoryProduct(@PathVariable Category category, @RequestParam("discount") int discount) {
+        productService.discountCategoryProduct(category, discount);
+        return ResponseEntity.ok().build();
+    }
+
+    //인기 상품 목록 조회
+    @GetMapping("/pop")
+    public ResponseEntity<List<Product>> readTop10Products() {
+        return ResponseEntity.ok().body(productService.readTop10Products());
+    }
 }
 
