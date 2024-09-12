@@ -25,7 +25,7 @@ public class MemberService {
 
     //회원가입
     @Transactional
-    public void registertMember(MemberRegisterRequest request) {
+    public void registerMember(MemberRegisterRequest request) {
 
         // 이메일 중복 확인
         Member existingMember = getMemberByEmail(request.getEmail());
