@@ -99,7 +99,7 @@ public class ProductService {
     // 금액 범위 검증
     private void validatePriceRange(int minPrice, int maxPrice) {
         if (minPrice > maxPrice) {
-            throw new IllegalArgumentException("최소 금액은 최대 금액을 넘을 수 없습니다.");
+            throw new ProductException(ExceptionMessage.PRODUCT_MIN_PRICE_BIGGER_THAN_MAX_PRICE);
         }
     }
 
