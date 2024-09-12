@@ -2,6 +2,7 @@ package grepp.coffee.backend.model.service.review;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.review.ReviewException;
+import grepp.coffee.backend.controller.review.request.ReviewDeleteRequest;
 import grepp.coffee.backend.controller.review.request.ReviewRegisterRequest;
 import grepp.coffee.backend.controller.review.request.ReviewUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
@@ -53,7 +54,14 @@ public class ReviewService {
         Review review = findByIdOrThrowReviewException(reviewId);
 
         // 사용자 조회
-        memberService.findByIdOrThrowMemberException(request.getMemberId());
+        Member member = memberService.findByIdOrThrowMemberException(request.getMemberId());
+
+        // 리뷰 작성자 확인
+        if (!review.getMember().getMemberId().equals(member.getMemberId())) {
+
+            log.warn(">>>> {} : {} <<<<", reviewId, ExceptionMessage.REVIEW_NOT_WRITTEN_BY_MEMBER);
+            throw  new ReviewException(ExceptionMessage.REVIEW_NOT_WRITTEN_BY_MEMBER);
+        }
 
         // 상품 조회
         productService.findByIdOrThrowProductException(request.getProductId());
@@ -72,6 +80,23 @@ public class ReviewService {
 
 
         return reviewRepository.findByProductId(product.getProductId());
+    }
+
+    // 리뷰 삭제
+    @Transactional
+    public void deleteReview(Long reviewId, ReviewDeleteRequest request) {
+
+        // 리뷰 조회
+        Review review = findByIdOrThrowReviewException(reviewId);
+
+        // 리뷰 작성자 확인
+        if (!review.getMember().getMemberId().equals(request.getMemberId())) {
+
+            log.warn(">>>> {} : {} <<<<", reviewId, ExceptionMessage.REVIEW_NOT_WRITTEN_BY_MEMBER);
+            throw  new ReviewException(ExceptionMessage.REVIEW_NOT_WRITTEN_BY_MEMBER);
+        }
+
+        reviewRepository.delete(review);
     }
 
 
