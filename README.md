@@ -58,6 +58,23 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 6. **Sequence Diagram**
 - [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
 
+```
+sequenceDiagram
+		participant User as 사용자
+		participant WebApp as WEB
+		participant DB as DB
+		
+		User ->> WebApp: 아이디, 비밀번호, 이메일, 주소, 우편번호 입력
+		WebApp ->> WebApp: 입력된 데이터 검증
+		WebApp ->> DB: 사용자 정보 저장
+		DB ->> WebApp: 저장 완료
+		WebApp ->> User: 회원가입 성공 메시지
+```
+
+
+
+
+
 7. **ERD**
 <img width="795" alt="image" src="https://github.com/user-attachments/assets/bfd2c2b2-47c3-452a-8d41-ee27bbb57286">
 
