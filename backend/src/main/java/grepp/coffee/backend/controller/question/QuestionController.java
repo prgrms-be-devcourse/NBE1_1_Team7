@@ -1,5 +1,6 @@
 package grepp.coffee.backend.controller.question;
 
+import grepp.coffee.backend.controller.question.request.QuestionDeleteRequest;
 import grepp.coffee.backend.controller.question.request.QuestionRegisterRequest;
 import grepp.coffee.backend.controller.question.request.QuestionUpdateRequest;
 import grepp.coffee.backend.model.entity.question.Question;
@@ -49,8 +50,9 @@ public class QuestionController {
     // FAQ 삭제
     @Operation(summary = "FAQ 삭제", description = "특정 질문과 답변(FAQ)을 삭제하는 API")
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<Void> deleteQuestion(@PathVariable(name = "questionId") Long questionId) {
-        questionService.deleteQuestion(questionId);
+    public ResponseEntity<Void> deleteQuestion(@PathVariable(name = "questionId") Long questionId,
+                                               @Valid @RequestBody QuestionDeleteRequest question) {
+        questionService.deleteQuestion(questionId, question);
         return ResponseEntity.ok().build();
     }
 }
