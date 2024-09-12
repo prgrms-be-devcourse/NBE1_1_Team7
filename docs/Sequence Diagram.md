@@ -1,65 +1,6 @@
-# NBE1_1_Team7
-Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
+### 회원
 
-## 0️⃣ 프로젝트 소개
-
-### 프로젝트 명칭
-로컬 카페 **Grids & Circles**
-
-### 1차 프로젝트 참고 자료
-- [1차 프로젝트](https://www.notion.so/1-3953906e07df4359ac6110d5f5199bef)
-
-### 개발 기간
-**2024/09/06 ~ 2024/09/12**
-
-## 1️⃣ 기획서
-- [1차 팀 프로젝트 기획서](https://www.notion.so/1-f52a96adbed24df6b55e350170e24bad)
-
-## 2️⃣ 개발 툴
-| Software | 세부 Spec 사양 (Version) |
-| --- | --- |
-| Java | Java SE 17.0.11 |
-| Spring Boot | 3.3.3 |
-| Spring Boot Libraries | Data JPA, Web, Validation, Security: 2.1.0 |
-| Lombok | 1.18.20 |
-| QueryDSL | JPA: 5.0.0 |
-| Swagger/OpenAPI | SpringDoc OpenAPI MVC UI: 2.1.0 |
-| MySQL | MySQL Community 8.0.39 |
-| MySQL Connector | 8.0.29 |
-| H2 Database | 2.1.214 (Test 용도) |
-| JUnit | JUnit Platform Launcher: 1.9.2 |
-
-## 3️⃣ 프로젝트 협업 규칙 
-- [브랜치, 풀리퀘스트 전략](docs/Branch%20strategy%20and%20pull-quest.md)
-- [코드 컨벤션](https://www.notion.so/Code-Convention-39b695d898124b9c9d92214b83d84fc8)
-- [커밋 컨벤션](docs/Define%20a%20commit%20message%20convention.md)
-
-## 4️⃣ 프로젝트 구현
-
-### 1. **주요 기능 요약**:
-   - **회원 관리**: 회원가입, 로그인/로그아웃, 개인 정보 조회 및 수정
-   - **관리자**: 상품, 배송, FAQ 관리
-   - **사용자**: 상품 주문, 조회, 검색, 장바구니, 리뷰
-   
-### 2. **데이터베이스 연동**:
-   - **MySQL**: 실제 운영 데이터베이스로 사용. 회원, 주문, 상품, 장바구니, 리뷰, FAQ 데이터을 저장.
-   - **H2 Database**: 테스트 용도로 사용. 개발 및 테스트 환경에서 사용.
-
-### 3. **Spring Security**:
-   - **간단한 인증 및 인가 구현**: API 보호를 위한 기본적인 인증 로직 사용.
-
-### 4. **테스트**:
-   - **JUnit을 이용한 유닛 테스트**: 각 서비스 로직 및 컨트롤러에 대한 테스트 구현.
-
-### 5. **Swagger API 문서화**:
-   - SpringDoc을 활용하여 API 문서 자동 생성.
-   - `/swagger-ui.html`에서 API 문서 확인 가능.
-
-### 6. **Sequence Diagram**
-- [Sequence Diagram](docs/Sequence%20Diagram.md)
-#### 회원
-
-1. 회원가입
+### 1. 회원가입
 
 1. **사용자**는 아이디, 비밀번호, 이메일, 주소, 우편번호 입력
 2. **웹 애플리케이션**에서 입력된 데이터를 검증
@@ -77,7 +18,7 @@ sequenceDiagram
 		DB ->> WebApp: 저장 완료
 		WebApp ->> User: 회원가입 성공 메시지
 ```
-2. 로그인, 로그아웃
+### 2. 로그인, 로그아웃
 
 1. **사용자**는 아이디와 비밀번호를 입력하고 로그인 요청을 보냄
 2. **웹 애플리케이션**은 아이디와 비밀번호의 유효성을 검증함
@@ -104,7 +45,7 @@ sequenceDiagram
     WebApp ->> User: 자동 로그아웃
 ```
 
-3. 회원 정보 관리
+### 3. 회원 정보 관리
 
 - **개인정보 조회**
 1. **사용자**는 개인정보 조회 요청을 보냄
@@ -141,9 +82,9 @@ sequenceDiagram
     DB ->> WebApp: 업데이트 완료
     WebApp ->> User: 개인정보 수정 성공 메시지
 ```
-#### 상품
+### 상품
 
-4. 상품 등록, 수정, 삭제
+### 4. 상품 등록, 수정, 삭제
 
 - **상품 등록**
 1. **관리자**가 상품명, 가격, 상품 상세정보를 입력함
@@ -193,7 +134,7 @@ sequenceDiagram
     DB ->> WebApp: 삭제 완료
     WebApp ->> Admin: 상품 삭제 성공 메시지 반환
 ```
-5. 상품 정보 조회 및 검색
+### 5. 상품 정보 조회 및 검색
 
 1. **사용자**는 상품 목록을 조회함
 2. **웹 애플리케이션**은 **데이터베이스**에서 모든 상품 정보를 조회하여 반환함
@@ -223,7 +164,7 @@ sequenceDiagram
     DB ->> WebApp: 필터링된 상품 목록 반환
     WebApp ->> User: 검색 및 필터링된 상품 목록 표시
 ```
-6. 상품 리뷰 작성, 수정
+### 6. 상품 리뷰 작성, 수정
 
 - **상품 리뷰 작성**
 1. **사용자**는 상품에 대해 평점과 함께 리뷰를 작성함
@@ -268,7 +209,7 @@ sequenceDiagram
         WebApp ->> User: 수정 권한 없음 메시지 반환
     end
 ```
-7. 상품 할인
+### 7. 상품 할인
 
 1. **관리자**는 개별 상품 또는 카테고리별로 할인을 적용함
 2. **웹 애플리케이션**은 할인 대상(개별 상품 또는 카테고리)을 선택하고, 할인율을 입력함
@@ -287,7 +228,7 @@ sequenceDiagram
     DB ->> WebApp: 저장 완료
     WebApp ->> Admin: 할인 적용 성공 메시지 반환
 ```
-8. 인기 상품
+### 8. 인기 상품
 
 1. **사용자**는 인기 상품 목록을 조회함
 2. **웹 애플리케이션**은 **데이터베이스**에서 판매량 기준으로 정렬된 상품 목록을 조회함
@@ -306,7 +247,7 @@ sequenceDiagram
     WebApp ->> WebApp: 상위 N개의 인기 상품 선택
     WebApp ->> User: 인기 상품 목록 반환
 ```
-9. 장바구니 추가, 수정, 삭제
+### 9. 장바구니 추가, 수정, 삭제
 
 - **장바구니 추가**
 1. **사용자**는 장바구니에 상품과 그 수량을 추가함
@@ -379,9 +320,9 @@ sequenceDiagram
     WebApp ->> DB: 주문 완료 후 장바구니에서 상품 자동 삭제
     DB ->> WebApp: 삭제 완료
 ```
-#### 주문
+### 주문
 
-10. 주문하기
+### 10. 주문하기
 
 1. **사용자**는 상품 목록에서 상품을 선택하고, 상품명과 상품 수량을 입력하여 주문 요청을 보냄
 2. **웹 애플리케이션**은 주문 정보의 유효성을 검증함 (재고 확인 등)
@@ -407,7 +348,7 @@ sequenceDiagram
         WebApp ->> User: 주문 실패 메시지 반환
     end
 ```
-11. 주문 메뉴 수정
+### 11. 주문 메뉴 수정
 
 1. **사용자**는 기존 주문에서 메뉴를 추가, 삭제하거나 수량을 수정함
 2. **웹 애플리케이션**은 수정된 주문 정보의 유효성을 검증함 (재고 확인 등)
@@ -430,7 +371,7 @@ sequenceDiagram
         WebApp ->> User: 주문 수정 실패 메시지 반환
     end
 ```
-12. 주문 사용자 정보 수정
+### 12. 주문 사용자 정보 수정
 
 1. **사용자**는 주문한 후 우편번호, 주소 등의 정보를 수정 요청함
 2. **웹 애플리케이션**은 사용자가 해당 주문을 한 사람인지 확인함
@@ -454,7 +395,7 @@ sequenceDiagram
         WebApp ->> User: 정보 수정 실패 메시지 반환
     end
 ```
-13. 주문 취소
+### 13. 주문 취소
 
 1. **사용자**는 주문 취소 요청을 보냄
 2. **웹 애플리케이션**은 해당 주문이 아직 배송되지 않았는지 확인함
@@ -478,7 +419,7 @@ sequenceDiagram
         WebApp ->> User: 주문 취소 불가 메시지 반환
     end
 ```
-14. 주문 목록 조회
+### 14. 주문 목록 조회
 
 1. **사용자**는 자신의 주문 내역을 조회 요청함
 2. **웹 애플리케이션**은 **데이터베이스**에서 해당 사용자의 모든 주문 내역을 조회함
@@ -494,7 +435,7 @@ sequenceDiagram
     DB ->> WebApp: 주문 내역 반환
     WebApp ->> User: 주문 목록 반환
 ```
-15. 전체 주문 목록 조회
+### 15. 전체 주문 목록 조회
 
 1. **관리자**는 전체 사용자에 대한 주문 목록 조회를 요청함
 2. **웹 애플리케이션**은 **데이터베이스**에서 모든 사용자들의 주문 내역을 조회함
@@ -510,7 +451,7 @@ sequenceDiagram
     DB ->> WebApp: 전체 주문 내역 반환
     WebApp ->> Admin: 주문 목록 반환
 ```
-16. 배송 시작 일괄 처리
+### 16. 배송 시작 일괄 처리
 
 1. **관리자**는 전날 오후 2시부터 금일 오후 2시까지의 주문 목록 조회를 요청함
 2. **웹 애플리케이션**은 **데이터베이스**에서 해당 시간 범위에 해당하는 주문 목록을 조회함
@@ -529,7 +470,7 @@ sequenceDiagram
     DB ->> WebApp: 배송 상태 변경 완료
     WebApp ->> Admin: 배송 시작 처리 완료 메시지 반환
 ```
-17. 포인트 적립
+### 17. 포인트 적립
 
 1. **사용자**는 상품을 주문함
 2. **웹 애플리케이션**은 주문 금액의 2%를 계산하여 포인트로 적립함
@@ -547,9 +488,9 @@ sequenceDiagram
     DB ->> WebApp: 업데이트 완료
     WebApp ->> User: 포인트 적립 성공 메시지 반환
 ```
-#### FAQ
+### FAQ
 
-18. FAQ 관리
+### 18. FAQ 관리
 
 1. **관리자**는 질문과 그에 대한 답변을 작성하여 FAQ 페이지에 등록 요청을 함
 2. **웹 애플리케이션**은 질문과 답변을 검증함
@@ -571,134 +512,3 @@ sequenceDiagram
         WebApp ->> Admin: FAQ 등록 실패 메시지 반환
     end
 ```
-
-### 7. **ERD**
-<img width="795" alt="image" src="https://github.com/user-attachments/assets/bfd2c2b2-47c3-452a-8d41-ee27bbb57286">
-
-### 8. **프로젝트 패키지 구조**
-```
-com
-└── grepp
-    └── coffee
-        └── backend
-            ├── common
-            │   └── exception
-            │       ├── member
-            │       │   ├── CartException.java
-            │       │   └── MemberException.java
-            │       ├── order
-            │       │   └── OrderException.java
-            │       ├── product
-            │       │   └── ProductException.java
-            │       ├── question
-            │       │   └── QuestionException.java
-            │       ├── review
-            │       │   └── ReviewException.java
-            │       ├── CoffeeException.java
-            │       ├── ErrorResponse.java
-            │       ├── ExceptionMessage.java
-            │       └── GlobalExceptionHandler.java
-            ├── config
-            │   ├── QueryDslConfig.java
-            │   └── SecurityConfig.java
-            ├── controller
-            │   ├── member
-            │   │   ├── request
-            │   │   │   ├── CartRegisterRequest.java
-            │   │   │   ├── CartUpdateRequest.java
-            │   │   │   ├── MemberLoginRequest.java
-            │   │   │   ├── MemberRegisterRequest.java
-            │   │   │   └── MemberUpdateRequest.java
-            │   │   ├── CartController.java
-            │   │   └── MemberController.java
-            │   ├── order
-            │   │   ├── request
-            │   │   │   ├── OrderRegisterRequest.java
-            │   │   │   └── OrderUpdateRequest.java
-            │   │   └── OrderController.java
-            │   ├── orderitem
-            │   │   ├── request
-            │   │   │   └── OrderItemRequest.java
-            │   ├── product
-            │   │   ├── request
-            │   │   │   ├── ProductDetailResponse.java
-            │   │   │   ├── ProductRegisterRequest.java
-            │   │   │   └── ProductUpdateRequest.java
-            │   │   ├── ProductController.java
-            │   │   └── ProductSearchController.java
-            │   ├── question
-            │   │   ├── request
-            │   │   │   ├── QuestionDeleteRequest.java
-            │   │   │   ├── QuestionRegisterRequest.java
-            │   │   │   └── QuestionUpdateRequest.java
-            │   │   └── QuestionController.java
-            │   ├── review
-            │   │   ├── request
-            │   │   │   ├── ReviewDeleteRequest.java
-            │   │   │   ├── ReviewRegisterRequest.java
-            │   │   │   └── ReviewUpdateRequest.java
-            │   │   └── ReviewController.java
-            ├── model
-            │   ├── entity
-            │   │   ├── cart
-            │   │   │   └── Cart.java
-            │   │   ├── member
-            │   │   │   ├── constant
-            │   │   │   │   └── ROLE.java
-            │   │   │   └── Member.java
-            │   │   ├── order
-            │   │   │   ├── constant
-            │   │   │   │   └── OrderStatus.java
-            │   │   │   └── Order.java
-            │   │   ├── orderitem
-            │   │   │   └── OrderItem.java
-            │   │   ├── product
-            │   │   │   ├── constant
-            │   │   │   │   └── Category.java
-            │   │   │   └── Product.java
-            │   │   ├── question
-            │   │   │   └── Question.java
-            │   │   ├── review
-            │   │   │   └── Review.java
-            │   │   └── BaseEntity.java
-            ├── repository
-            │   ├── member
-            │   │   ├── CartRepository.java
-            │   │   └── MemberRepository.java
-            │   ├── order
-            │   │   └── OrderRepository.java
-            │   ├── orderitem
-            │   │   └── OrderItemRepository.java
-            │   ├── product
-            │   │   └── ProductRepository.java
-            │   ├── question
-            │   │   └── QuestionRepository.java
-            │   └── review
-            │       └── ReviewRepository.java
-            ├── service
-            │   ├── member
-            │   │   ├── CartService.java
-            │   │   └── MemberService.java
-            │   ├── order
-            │   │   └── OrderService.java
-            │   ├── product
-            │   │   └── ProductService.java
-            │   ├── question
-            │   │   └── QuestionService.java
-            │   └── review
-            │       └── ReviewService.java
-            └── BackendApplication.java
-```
-### 9. **API 명세**
-- [Sequence Diagram](https://prgrms-be-devcourse.github.io/NBE1_1_Team7/swagger-api-docs)
-
-*** 
-## Appendix A. 참여자
-| 이름  | Github | 비고 |
-| --- | --- | --- |
-| 김수민 | https://github.com/tnals2384 | --- |
-| 노관태 | https://github.com/Repaion24 | --- |
-| 류희수 | https://github.com/hs201016 | --- |
-| 양아영 | https://github.com/ayoung-dev | --- |
-| 윤건우 | https://github.com/oo-ni | --- |
-| 이정우 | https://github.com/j-ra1n | 프로젝트 BaseCode 제공 |
