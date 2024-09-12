@@ -2,32 +2,32 @@
 Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 
 ## 0️⃣ 프로젝트 소개
+
 ### 프로젝트 명칭
-로컬 카페 Grids & Circles
+로컬 카페 **Grids & Circles**
 
-### 기획 의도
-Coffe Bean package를 온라인 웹 사이트로 주문합니다. 매일 전날 오후 2시부터 오늘 오후 2시까지의 주문을 모아서 처리합니다.
-
-우리는 별도의 회원을 관리하지 않습니다. email로 고객을 구분해요. 주문을 받을 때 email을 같이 받아서 주문을 받습니다. 하나의 email로 하루에 여러 번 주문을 받더라도 하나로 합쳐서 다음날 배송을 보내면 됩니다.
+### 1차 프로젝트 참고 자료
+- [1차 프로젝트](https://www.notion.so/1-3953906e07df4359ac6110d5f5199bef)
 
 ### 개발 기간
 **2024/09/06 ~ 2024/09/12**
 
 ## 1️⃣ 기획서
-- [1차 팀 프로젝트 기획서(개인)](https://www.notion.so/1-6a44ad3e0caa4527b66969b9e3e58669)
-- [1차 팀 프로젝트 기획서(팀)](https://www.notion.so/1-4-5-c364d76ab3464a8e9f46174c9428f457)
+- [1차 팀 프로젝트 기획서](https://www.notion.so/1-f52a96adbed24df6b55e350170e24bad)
 
 ## 2️⃣ 개발 툴
 | Software | 세부 Spec 사양 (Version) |
 | --- | --- |
 | Java | Java SE 17.0.11 |
-| Spring | Spring Boot 3.3.3 |
-| MySQL | MySQL Community 8.0.39 |
-| Spring Boot Libraries | Data JPA, Web, Validation, Test: 2.1.0 |
+| Spring Boot | 3.3.3 |
+| Spring Boot Libraries | Data JPA, Web, Validation, Security: 2.1.0 |
 | Lombok | 1.18.20 |
-| MySQL Connector | 8.0.29 |
 | QueryDSL | JPA: 5.0.0 |
-| Swagger/OpenAPI | SpringDoc OpenAPI: 2.1.0 |
+| Swagger/OpenAPI | SpringDoc OpenAPI MVC UI: 2.1.0 |
+| MySQL | MySQL Community 8.0.39 |
+| MySQL Connector | 8.0.29 |
+| H2 Database | 2.1.214 (Test 용도) |
+| JUnit | JUnit Platform Launcher: 1.9.2 |
 
 ## 3️⃣ 프로젝트 협업 규칙 
 - [브랜치, 풀리퀘스트 전략](docs/Branch%20strategy%20and%20pull-quest.md)
@@ -36,15 +36,33 @@ Coffe Bean package를 온라인 웹 사이트로 주문합니다. 매일 전날 
 
 ## 4️⃣ 프로젝트 구현
 
-## 5️⃣ 산출물?
+1. **주요 기능 요약**:
+   - **회원 관리**: 회원가입, 로그인/로그아웃, 개인 정보 조회 및 수정
+   - **관리자**: 상품, 배송, FAQ 관리
+   - **사용자**: 상품 주문, 조회, 검색, 장바구니, 리뷰
+   
+2. **데이터베이스 연동**:
+   - **MySQL**: 실제 운영 데이터베이스로 사용. 회원, 주문, 상품, 장바구니, 리뷰, FAQ 데이터을 저장.
+   - **H2 Database**: 테스트 용도로 사용. 개발 및 테스트 환경에서 사용.
+
+3. **Spring Security**:
+   - **간단한 인증 및 인가 구현**: API 보호를 위한 기본적인 인증 로직 사용.
+
+4. **테스트**:
+   - **JUnit을 이용한 유닛 테스트**: 각 서비스 로직 및 컨트롤러에 대한 테스트 구현.
+
+5. **Swagger API 문서화**:
+   - SpringDoc을 활용하여 API 문서 자동 생성.
+   - `/swagger-ui.html`에서 API 문서 확인 가능.
+"""
 
 *** 
 ## Appendix A. 참여자
-| 이름  | Github | 역할 | 비고 |
-| --- | --- | --- | --- |
-| 김수민 | https://github.com/tnals2384 | --- | --- |
-| 노관태 | https://github.com/Repaion24 | --- | --- |
-| 류희수 | https://github.com/hs201016 | --- | --- |
-| 양아영 | https://github.com/ayoung-dev | --- | --- |
-| 윤건우 | https://github.com/oo-ni | --- | --- |
-| 이정우 | https://github.com/j-ra1n | --- | 프로젝트 BaseCode 제공 |
+| 이름  | Github | 비고 |
+| --- | --- | --- |
+| 김수민 | https://github.com/tnals2384 | --- |
+| 노관태 | https://github.com/Repaion24 | --- |
+| 류희수 | https://github.com/hs201016 | --- |
+| 양아영 | https://github.com/ayoung-dev | --- |
+| 윤건우 | https://github.com/oo-ni | --- |
+| 이정우 | https://github.com/j-ra1n | 프로젝트 BaseCode 제공 |
