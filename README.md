@@ -55,7 +55,13 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
    - SpringDoc을 활용하여 API 문서 자동 생성.
    - `/swagger-ui.html`에서 API 문서 확인 가능.
 
-6. **프로젝트 패키지 구조**
+6. **Sequence Diagram**
+- [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
+
+7. **ERD**
+<img width="795" alt="image" src="https://github.com/user-attachments/assets/bfd2c2b2-47c3-452a-8d41-ee27bbb57286">
+
+8. **프로젝트 패키지 구조**
 ```
 com
 └── grepp
@@ -170,11 +176,6 @@ com
             └── BackendApplication.java
 
 ```
-7. **ERD**
-<img width="795" alt="image" src="https://github.com/user-attachments/assets/bfd2c2b2-47c3-452a-8d41-ee27bbb57286">
-
-8. **Sequence Diagram**
-- [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
 *** 
 ## Appendix A. 참여자
 | 이름  | Github | 비고 |
