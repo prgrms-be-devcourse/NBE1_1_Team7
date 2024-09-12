@@ -1,22 +1,28 @@
 package grepp.coffee.backend.model.service.product;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.common.exception.product.ProductException;
 import grepp.coffee.backend.controller.product.request.ProductDetailResponse;
 import grepp.coffee.backend.controller.product.request.ProductRegisterRequest;
 import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
+import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.entity.orderitem.OrderItem;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
+import grepp.coffee.backend.model.repository.member.MemberRepository;
 import grepp.coffee.backend.model.repository.product.ProductRepository;
 import grepp.coffee.backend.model.repository.review.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static grepp.coffee.backend.common.exception.ExceptionMessage.ADMIN_ACCESS_ONLY;
 
 @Slf4j
 @Service
@@ -24,7 +30,9 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ReviewRepository reviewRepository;
+
+    @Value("${admin.email}")
+    private String ADMIN_EMAIL;
 
     // 상품 전체 조회
     public List<Product> readProductList() {
@@ -47,7 +55,9 @@ public class ProductService {
 
     // 상품 등록
     @Transactional
-    public void registerProduct(ProductRegisterRequest request) {
+    public void registerProduct(Member member, ProductRegisterRequest request) {
+        //관리자 권한 체크
+        validAdmin(member);
 
         // Product 엔티티에 추가된 orderCount와 discount 반영
         Product product = Product.builder()
@@ -96,7 +106,10 @@ public class ProductService {
 
     // 상품 수정
     @Transactional
-    public void updateProduct(Long productId, ProductUpdateRequest request) {
+    public void updateProduct(Member member, Long productId, ProductUpdateRequest request) {
+        //관리자 권한 체크
+        validAdmin(member);
+
         // 상품 조회
         Product product = findByIdOrThrowProductException(productId);
 
@@ -112,7 +125,10 @@ public class ProductService {
 
     // 상품 삭제
     @Transactional
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(Member member, Long productId) {
+        //관리자 권한 체크
+        validAdmin(member);
+
         Product product = findByIdOrThrowProductException(productId);
         productRepository.delete(product);
     }
@@ -124,7 +140,10 @@ public class ProductService {
 
     //상품 할인
     @Transactional
-    public void discountProduct(Long productId, int discount) {
+    public void discountProduct(Member loginMember, Long productId, int discount) {
+        //관리자 권한 체크
+        validAdmin(loginMember);
+
         Product product = findByIdOrThrowProductException(productId);
 
         //할인 가격이 원래 금액보다 클 경우를 검사
@@ -134,7 +153,10 @@ public class ProductService {
 
     //카테고리로 상품 할인
     @Transactional
-    public void discountCategoryProduct(Category category, int discount) {
+    public void discountCategoryProduct(Member loginMember, Category category, int discount) {
+        //관리자 권한 체크
+        validAdmin(loginMember);
+
         List<Product> categoryProducts = productRepository.findByCategory(category);
         categoryProducts.forEach(product -> {
             //할인 가격이 원래 금액보다 클 경우를 검사
@@ -152,6 +174,12 @@ public class ProductService {
         if (product.getPrice() < discount) {
             throw new ProductException(ExceptionMessage.PRODUCT_DISCOUNT_BAE_REQUEST);
         }
+    }
+
+    //현재 관리자 Role이 없으므로 임의의 email check
+    private void validAdmin(Member loginMember) {
+        if (loginMember == null || !loginMember.getEmail().equals(ADMIN_EMAIL))
+            throw new MemberException(ADMIN_ACCESS_ONLY);
     }
 
     public void decreaseProductOrderCount(List<OrderItem> orderItems) {

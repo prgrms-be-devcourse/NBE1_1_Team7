@@ -24,6 +24,7 @@ public enum ExceptionMessage {
     MEMBER_IS_PRESENT("해당 이메일로 가입된 계정이 이미 있습니다."),
     MEMBER_NOT_LOGIN("로그인을 먼저 진행해주세요."),
     MEMBER_LOGIN_FAIL("이메일과 비밀번호를 다시 확인해주세요."),
+    ADMIN_ACCESS_ONLY("관리자만 접근할 수 있습니다."),
 
     // Question
     QUESTION_NOT_FOUND("해당 FAQ를 찾을 수 없습니다."),
