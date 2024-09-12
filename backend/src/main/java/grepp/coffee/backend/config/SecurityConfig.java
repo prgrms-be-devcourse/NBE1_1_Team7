@@ -19,12 +19,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화
-                .authorizeHttpRequests(auth -> auth
-                        // ADMIN 역할이 있는 사용자만 접근 가능
-                        .requestMatchers("/order/admin/**").hasRole("ADMIN")
-                        // 나머지 요청은 누구나 접근 가능
-                        .anyRequest().permitAll()
-                )
+//                .authorizeHttpRequests(auth -> auth
+//                        // ADMIN 역할이 있는 사용자만 접근 가능
+//                        .requestMatchers("/order/admin/**").hasRole("ADMIN")
+//                        // 나머지 요청은 누구나 접근 가능
+//                        .anyRequest().permitAll()
+//                )
                 .logout(logout -> logout
                         .logoutUrl("/account/logout")
                         .logoutSuccessHandler((request, response, authentication) ->
