@@ -8,6 +8,8 @@ import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
 import grepp.coffee.backend.controller.member.request.MemberUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.service.member.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -21,12 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/account")
 @RestController
+@Tag(name = "회원 API")
 public class MemberController {
 
     private final MemberService memberService;
 
     //회원 가입
     @PostMapping("/signup")
+    @Operation(summary = "회원가입", description = "회원가입 API")
     public ResponseEntity<Void> registerMember(@Valid @RequestBody MemberRegisterRequest request) {
         memberService.registerMember(request);
         return ResponseEntity.ok().build();
@@ -34,13 +38,14 @@ public class MemberController {
 
     //로그인
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "로그인 API")
     public ResponseEntity<Member> login(HttpServletRequest httpServletRequest,
                         @Valid @RequestBody MemberLoginRequest request) {
 
         Member member = memberService.login(request);
 
         if(member == null) {
-            throw new OrderException(ExceptionMessage.MEMBER_LOGIN_FAIL);
+            throw new MemberException(ExceptionMessage.MEMBER_LOGIN_FAIL);
         }
 
         HttpSession session = httpServletRequest.getSession();
@@ -48,11 +53,11 @@ public class MemberController {
         session.setAttribute("userRole", member.getRole());
         session.setMaxInactiveInterval(60 * 10);
         return ResponseEntity.ok().body(member);
-
     }
 
-    //로그아웃
+
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그아웃 API")
     public ResponseEntity<Void> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok().build();
@@ -60,6 +65,7 @@ public class MemberController {
 
     //마이페이지
     @GetMapping("/mypage")
+    @Operation(summary = "회원정보 조회", description = "회원정보를 조회하는 API")
     public ResponseEntity<Member> getMemberInfo(HttpSession session) {
 
         // 세션에서 로그인된 회원 정보 가져오기
@@ -77,6 +83,7 @@ public class MemberController {
     }
 
     @PutMapping("/mypage")
+    @Operation(summary = "회원정보 수정", description = "회원정보를 수정하는 API")
     public ResponseEntity<Member> updateMemberInfo(HttpSession session,
                                          @Valid @RequestBody MemberUpdateRequest request) {
 
