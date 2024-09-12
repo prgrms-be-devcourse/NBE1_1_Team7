@@ -2,15 +2,18 @@ package grepp.coffee.backend.model.service.product;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.product.ProductException;
+import grepp.coffee.backend.controller.product.request.ProductDetailResponse;
 import grepp.coffee.backend.controller.product.request.ProductRegisterRequest;
 import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
 import grepp.coffee.backend.model.entity.orderitem.OrderItem;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
 import grepp.coffee.backend.model.repository.product.ProductRepository;
+import grepp.coffee.backend.model.repository.review.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +24,25 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ReviewRepository reviewRepository;
 
     // 상품 전체 조회
     public List<Product> readProductList() {
         return productRepository.findAll();
+    }
+
+    // 상품 상세 조회
+    public ProductDetailResponse getProductDetails(Long productId) {
+        Product product = findByIdOrThrowProductException(productId);
+
+
+        return ProductDetailResponse.builder()
+                .productName(product.getProductName())
+                .category(product.getCategory())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .discount(product.getDiscount())
+                .build();
     }
 
     // 상품 등록
@@ -41,6 +59,39 @@ public class ProductService {
                 .discount(request.getDiscount())
                 .build();
         productRepository.save(product);
+    }
+
+    // (범위가 지정된) 가격 기준으로 오름차순 정렬된 상품 검색
+    public List<Product> searchProductsByPriceAsc(int minPrice, int maxPrice) {
+        return productRepository.findByPriceBetweenOrderedAsc(minPrice, maxPrice);
+    }
+
+    // (범위가 지정된) 가격 기준으로 내림차순 정렬된 상품 검색
+    public List<Product> searchProductsByPriceDesc(int minPrice, int maxPrice) {
+        return productRepository.findByPriceBetweenOrderedDesc(minPrice, maxPrice);
+    }
+
+    //정렬 방향에 따라서 price를 기준으로 상품 검색 (정렬 방향에 따라)
+    public List<Product> searchProductsByPrice(boolean ascending) {
+        Sort sort = ascending ? Sort.by(Sort.Order.asc("price")) : Sort.by(Sort.Order.desc("price"));
+        return productRepository.findAll(sort);
+    }
+
+    // 정렬 방향에 따라 orderCount를 기준으로 상품 검색 (주문량)
+    public List<Product> searchProductsByOrderCount(boolean ascending) {
+        Sort sort = ascending ? Sort.by(Sort.Order.asc("orderCount")) : Sort.by(Sort.Order.desc("orderCount"));
+        return productRepository.findAll(sort);
+    }
+
+    // 정렬 방향에 따라 productName를 기준으로 상품 검색
+    public List<Product> searchProductsByName(boolean ascending) {
+        Sort sort = ascending ? Sort.by(Sort.Order.asc("productName")) : Sort.by(Sort.Order.desc("productName"));
+        return productRepository.findAll(sort);
+    }
+
+    // 별점순에 따라 정렬
+    public List<Product> searchProductsByRating(boolean ascending) {
+        return ascending ? productRepository.findAllOrderedByRatingAsc() : productRepository.findAllOrderedByRatingDesc();
     }
 
     // 상품 수정
