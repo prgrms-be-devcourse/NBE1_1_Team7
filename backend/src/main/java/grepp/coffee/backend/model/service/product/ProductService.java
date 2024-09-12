@@ -33,8 +33,7 @@ public class ProductService {
 
     // 상품 상세 조회
     public ProductDetailResponse getProductDetails(Long productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductException(ExceptionMessage.PRODUCT_NOT_FOUND));
+        Product product = findByIdOrThrowProductException(productId);
 
 
         return ProductDetailResponse.builder()
