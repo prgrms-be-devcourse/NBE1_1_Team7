@@ -8,21 +8,53 @@ import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
 import grepp.coffee.backend.controller.member.request.MemberUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
+import grepp.coffee.backend.model.entity.member.constant.ROLE;
 import grepp.coffee.backend.model.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.BeanDefinitionDsl;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 @Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    // Spring Security의 UserDetailsService 구현
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(email);
+
+        if (member == null) {
+            throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                member.getEmail(),
+                passwordEncoder.encode(member.getPassword()),
+                getAuthorities(member.getRole()));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(ROLE role) {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
 
     //회원가입
     @Transactional
@@ -38,7 +70,8 @@ public class MemberService {
         // 새로운 member 생성 및 저장
         Member member = Member.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
                 .address(request.getAddress())
                 .build();
         memberRepository.save(member);
@@ -56,10 +89,10 @@ public class MemberService {
 
         //회원 정보 조회
         Member member = getMemberByEmail(request.getEmail());
-        String password = (member == null) ? "" : Arrays.toString(member.getPassword());
+        String password = (member == null) ? "" : member.getPassword();
 
         //비밀번호 일치 시 회원 정보 리턴
-        if (member != null && Arrays.toString(request.getPassword()).equals(password))
+        if (member != null && passwordEncoder.matches(request.getPassword(), password))
             return member;
 
         return null;

@@ -1,6 +1,7 @@
 package grepp.coffee.backend.model.entity.member;
 
 import grepp.coffee.backend.model.entity.BaseEntity;
+import grepp.coffee.backend.model.entity.member.constant.ROLE;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,7 +23,11 @@ public class Member extends BaseEntity {
     private String email;
 
     @Column(name = "PASSWORD", nullable = false)
-    private byte[] password;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE", length = 50, nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'MEMBER'")
+    private ROLE role;
 
     @Column(name = "POINT", nullable = true)
     private int point;
@@ -34,10 +39,11 @@ public class Member extends BaseEntity {
     private String postcode;
 
     @Builder
-    public Member(Long memberId, String email, byte[] password, int point, String address, String postcode) {
+    public Member(Long memberId, String email, String password, ROLE role, int point, String address, String postcode) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.point = point;
         this.address = address;
         this.postcode = postcode;
