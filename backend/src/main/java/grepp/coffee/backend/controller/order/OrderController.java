@@ -37,6 +37,13 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
+    // 장바구니에서 주문 등록
+    @PostMapping("/cart/{memberId}")
+    ResponseEntity<Void> orderAllCartItems(@PathVariable Long memberId) {
+        orderService.registerOrderCartItems(memberId);
+        return ResponseEntity.ok().build();
+    }
+
     // 주문 메뉴 수정하기
     @PutMapping("/{orderId}")
     public ResponseEntity<Void> updateOrderMenu(@PathVariable Long orderId,
