@@ -73,11 +73,13 @@ public class ProductService {
 
     // (범위가 지정된) 가격 기준으로 오름차순 정렬된 상품 검색
     public List<Product> searchProductsByPriceAsc(int minPrice, int maxPrice) {
+        validatePriceRange(minPrice, maxPrice);
         return productRepository.findByPriceBetweenOrderedAsc(minPrice, maxPrice);
     }
 
     // (범위가 지정된) 가격 기준으로 내림차순 정렬된 상품 검색
     public List<Product> searchProductsByPriceDesc(int minPrice, int maxPrice) {
+        validatePriceRange(minPrice, maxPrice);
         return productRepository.findByPriceBetweenOrderedDesc(minPrice, maxPrice);
     }
 
@@ -102,6 +104,13 @@ public class ProductService {
     // 별점순에 따라 정렬
     public List<Product> searchProductsByRating(boolean ascending) {
         return ascending ? productRepository.findAllOrderedByRatingAsc() : productRepository.findAllOrderedByRatingDesc();
+    }
+
+    // 금액 범위 검증
+    private void validatePriceRange(int minPrice, int maxPrice) {
+        if (minPrice > maxPrice) {
+            throw new ProductException(ExceptionMessage.PRODUCT_MIN_PRICE_BIGGER_THAN_MAX_PRICE);
+        }
     }
 
     // 상품 수정

@@ -10,9 +10,12 @@ import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
 import grepp.coffee.backend.model.service.product.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,53 +37,15 @@ public class ProductController {
 
     // 상품 상세 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailResponse> getProductDetails(@PathVariable("id") Long productId) {
+    public ResponseEntity<?> getProductDetails(@PathVariable("id") Long productId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("loginMember") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ExceptionMessage.MEMBER_NOT_LOGIN.getText());
+        }
+
         ProductDetailResponse productDetailDTO = productService.getProductDetails(productId);
         return ResponseEntity.ok(productDetailDTO);
-    }
-
-    // 가격 기준으로 오름차순 정렬된 상품 검색
-    @GetMapping("/search/price/asc")
-    public List<Product> searchProductsByPriceAsc(
-            @RequestParam int minPrice,
-            @RequestParam int maxPrice) {
-        return productService.searchProductsByPriceAsc(minPrice, maxPrice);
-    }
-
-    // 가격 기준으로 내림차순 정렬된 상품 검색
-    @GetMapping("/search/price/desc")
-    public List<Product> searchProductsByPriceDesc(
-            @RequestParam int minPrice,
-            @RequestParam int maxPrice) {
-        return productService.searchProductsByPriceDesc(minPrice, maxPrice);
-    }
-
-    // 가격없이 정렬 기준에 따라서만 정렬 true -> 오름차순 || false -> 내림차순
-    @GetMapping("/search/price")
-    public List<Product> searchProductsByPrice(
-            @RequestParam(defaultValue = "true") boolean ascending) {
-        return productService.searchProductsByPrice(ascending);
-    }
-
-    // 주문량에 따라 정렬 true -> 오름차순 || false -> 내림차순
-    @GetMapping("/search/order-count")
-    public List<Product> searchProductsByOrderCount(
-            @RequestParam(defaultValue = "true") boolean ascending) {
-        return productService.searchProductsByOrderCount(ascending);
-    }
-
-    // 이름순으로 정렬 true -> 오름차순 || false -> 내림차순
-    @GetMapping("/search/name")
-    public List<Product> searchProductsByName(
-            @RequestParam(defaultValue = "true") boolean ascending) {
-        return productService.searchProductsByName(ascending);
-    }
-
-    // 별점 평균 순으로 정렬 true -> 오름차순 || false -> 내림차순
-    @GetMapping("/search/rating")
-    public List<Product> searchProductsByRating(
-            @RequestParam(defaultValue = "true") boolean ascending) {
-        return productService.searchProductsByRating(ascending);
     }
 
     // 상품 등록
