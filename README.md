@@ -170,7 +170,11 @@ com
             └── BackendApplication.java
 
 ```
+7. **ERD**
+<img width="795" alt="image" src="https://github.com/user-attachments/assets/bfd2c2b2-47c3-452a-8d41-ee27bbb57286">
 
+8. **Sequence Diagram**
+- [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
 *** 
 ## Appendix A. 참여자
 | 이름  | Github | 비고 |
