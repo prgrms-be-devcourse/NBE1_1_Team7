@@ -1,5 +1,6 @@
 package grepp.coffee.backend.controller.member.request;
 
+import grepp.coffee.backend.model.entity.member.constant.ROLE;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,10 @@ public class MemberRegisterRequest {
     private String email;
 
     @NotNull
-    private byte[] password;
+    private String password;
+
+    @NotNull
+    private ROLE role;
 
     @NotNull
     private String address;

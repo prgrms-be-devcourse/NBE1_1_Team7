@@ -45,6 +45,7 @@ public class MemberController {
 
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute("loginMember", member);
+        session.setAttribute("userRole", member.getRole());
         session.setMaxInactiveInterval(60 * 10);
         return ResponseEntity.ok().body(member);
 

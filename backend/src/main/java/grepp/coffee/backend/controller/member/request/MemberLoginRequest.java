@@ -14,5 +14,5 @@ public class MemberLoginRequest {
     private String email;
 
     @NotNull
-    private byte[] password;
+    private String password;
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class MemberUpdateRequest {
 
     @NotNull
-    private byte[] password;
+    private String password;
 
     @NotNull
     private String address;
