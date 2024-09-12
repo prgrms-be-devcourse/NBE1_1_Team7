@@ -41,7 +41,7 @@ public class ReviewService {
                 .productId(product.getProductId())
                 .member(member)
                 .review(request.getReview())
-                .rating(0) // 기본 할인율 0
+                .rating(request.getRating())
                 .build();
         reviewRepository.save(review);
     }
