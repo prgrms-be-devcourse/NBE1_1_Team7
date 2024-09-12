@@ -2,6 +2,7 @@ package grepp.coffee.backend.model.service.member;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
 import grepp.coffee.backend.common.exception.member.MemberException;
+import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.member.request.MemberLoginRequest;
 import grepp.coffee.backend.controller.member.request.MemberRegisterRequest;
@@ -91,9 +92,8 @@ public class MemberService {
     public Member findByIdOrThrowMemberException(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> {
-                    log.warn(">>>> {} : {} <<<<", memberId, ExceptionMessage.ORDER_NOT_FOUND);
-                    return new OrderException(ExceptionMessage.ORDER_NOT_FOUND);
+                    log.warn(">>>> {} : {} <<<<", memberId, ExceptionMessage.MEMBER_NOT_FOUND);
+                    return new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
                 });
     }
-
 }

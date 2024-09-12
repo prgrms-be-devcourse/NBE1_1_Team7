@@ -11,6 +11,7 @@ import grepp.coffee.backend.model.entity.orderitem.OrderItem;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.repository.order.OrderRepository;
 import grepp.coffee.backend.model.repository.orderitem.OrderItemRepository;
+import grepp.coffee.backend.model.service.member.CartService;
 import grepp.coffee.backend.model.service.member.MemberService;
 import grepp.coffee.backend.model.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ProductService productService;
     private final MemberService memberService;
+    private final CartService cartService;
 
     // 사용자가 주문한 목록 조회 (memberId 사용)
     public List<Order> getUserOrders(Long memberId) {
@@ -62,6 +64,9 @@ public class OrderService {
             // 상품 조회
             Product product = productService.findByIdOrThrowProductException(itemRequest.getProductId());
 
+            //주문수량 증가
+            product.increaseOrderCount(itemRequest.getQuantity());
+
             // OrderItem 생성
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
@@ -69,6 +74,9 @@ public class OrderService {
                     .quantity(itemRequest.getQuantity())
                     .build();
             orderItemRepository.save(orderItem);
+
+            // 장바구니에서 해당 상품 삭제 (주문 완료 시)
+            cartService.deleteCartByOrder(product.getProductId(), member.getMemberId());
         }
     }
 
@@ -88,10 +96,16 @@ public class OrderService {
         List<OrderItem> existingOrderItems = orderItemRepository.findByOrder(order);
         orderItemRepository.deleteAll(existingOrderItems);
 
+        // 기존 주문 수량 감소
+        productService.decreaseProductOrderCount(existingOrderItems);
+
         // 새로운 주문 항목 저장
         for (OrderItemRequest itemRequest : request.getUpdatedOrderItems()) {
             // 상품 조회
             Product product = productService.findByIdOrThrowProductException(itemRequest.getProductId());
+
+            //주문수량 증가
+            product.increaseOrderCount(itemRequest.getQuantity());
 
             // 새로운 OrderItem 생성 및 저장
             OrderItem updatedOrderItem = OrderItem.builder()
@@ -114,6 +128,10 @@ public class OrderService {
         if (!order.getOrderStatus().equals(PENDING)) {
             throw new OrderException(ExceptionMessage.ORDER_STATUS_NOT_FENDING);
         }
+
+        // 주문 수량 감소
+        List<OrderItem> oderItems = orderItemRepository.findByOrder(order);
+        productService.decreaseProductOrderCount(oderItems);
 
         orderRepository.delete(order);
     }

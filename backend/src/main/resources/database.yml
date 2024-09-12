@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/coffee
-    username: root
-    password: '0210'
+    url: jdbc:mysql://127.0.0.1:3306/coffee_Backend?serverTimezone=Asia/Seoul
+    username: jw
+    password: wjddn0922
 
   jpa:
     hibernate:
