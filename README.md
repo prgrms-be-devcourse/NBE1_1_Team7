@@ -54,7 +54,122 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 5. **Swagger API 문서화**:
    - SpringDoc을 활용하여 API 문서 자동 생성.
    - `/swagger-ui.html`에서 API 문서 확인 가능.
-"""
+
+6. **프로젝트 패키지 구조**
+```
+com
+└── grepp
+    └── coffee
+        └── backend
+            ├── common
+            │   └── exception
+            │       ├── member
+            │       │   ├── CartException.java
+            │       │   └── MemberException.java
+            │       ├── order
+            │       │   └── OrderException.java
+            │       ├── product
+            │       │   └── ProductException.java
+            │       ├── question
+            │       │   └── QuestionException.java
+            │       ├── review
+            │       │   └── ReviewException.java
+            │       ├── CoffeeException.java
+            │       ├── ErrorResponse.java
+            │       ├── ExceptionMessage.java
+            │       └── GlobalExceptionHandler.java
+            ├── config
+            │   ├── QueryDslConfig.java
+            │   └── SecurityConfig.java
+            ├── controller
+            │   ├── member
+            │   │   ├── request
+            │   │   │   ├── CartRegisterRequest.java
+            │   │   │   ├── CartUpdateRequest.java
+            │   │   │   ├── MemberLoginRequest.java
+            │   │   │   ├── MemberRegisterRequest.java
+            │   │   │   └── MemberUpdateRequest.java
+            │   │   ├── CartController.java
+            │   │   └── MemberController.java
+            │   ├── order
+            │   │   ├── request
+            │   │   │   ├── OrderRegisterRequest.java
+            │   │   │   └── OrderUpdateRequest.java
+            │   │   └── OrderController.java
+            │   ├── orderitem
+            │   │   ├── request
+            │   │   │   └── OrderItemRequest.java
+            │   ├── product
+            │   │   ├── request
+            │   │   │   ├── ProductDetailResponse.java
+            │   │   │   ├── ProductRegisterRequest.java
+            │   │   │   └── ProductUpdateRequest.java
+            │   │   ├── ProductController.java
+            │   │   └── ProductSearchController.java
+            │   ├── question
+            │   │   ├── request
+            │   │   │   ├── QuestionDeleteRequest.java
+            │   │   │   ├── QuestionRegisterRequest.java
+            │   │   │   └── QuestionUpdateRequest.java
+            │   │   └── QuestionController.java
+            │   ├── review
+            │   │   ├── request
+            │   │   │   ├── ReviewDeleteRequest.java
+            │   │   │   ├── ReviewRegisterRequest.java
+            │   │   │   └── ReviewUpdateRequest.java
+            │   │   └── ReviewController.java
+            ├── model
+            │   ├── entity
+            │   │   ├── cart
+            │   │   │   └── Cart.java
+            │   │   ├── member
+            │   │   │   ├── constant
+            │   │   │   │   └── ROLE.java
+            │   │   │   └── Member.java
+            │   │   ├── order
+            │   │   │   ├── constant
+            │   │   │   │   └── OrderStatus.java
+            │   │   │   └── Order.java
+            │   │   ├── orderitem
+            │   │   │   └── OrderItem.java
+            │   │   ├── product
+            │   │   │   ├── constant
+            │   │   │   │   └── Category.java
+            │   │   │   └── Product.java
+            │   │   ├── question
+            │   │   │   └── Question.java
+            │   │   ├── review
+            │   │   │   └── Review.java
+            │   │   └── BaseEntity.java
+            ├── repository
+            │   ├── member
+            │   │   ├── CartRepository.java
+            │   │   └── MemberRepository.java
+            │   ├── order
+            │   │   └── OrderRepository.java
+            │   ├── orderitem
+            │   │   └── OrderItemRepository.java
+            │   ├── product
+            │   │   └── ProductRepository.java
+            │   ├── question
+            │   │   └── QuestionRepository.java
+            │   └── review
+            │       └── ReviewRepository.java
+            ├── service
+            │   ├── member
+            │   │   ├── CartService.java
+            │   │   └── MemberService.java
+            │   ├── order
+            │   │   └── OrderService.java
+            │   ├── product
+            │   │   └── ProductService.java
+            │   ├── question
+            │   │   └── QuestionService.java
+            │   └── review
+            │       └── ReviewService.java
+            └── BackendApplication.java
+
+```
 
 *** 
 ## Appendix A. 참여자
