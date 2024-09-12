@@ -174,8 +174,10 @@ com
             │   └── review
             │       └── ReviewService.java
             └── BackendApplication.java
-
 ```
+9. **API 명세**
+- [Sequence Diagram](docs/swagger-api-docs.html)
+
 *** 
 ## Appendix A. 참여자
 | 이름  | Github | 비고 |
