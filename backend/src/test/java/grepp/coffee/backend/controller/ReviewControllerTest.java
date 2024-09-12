@@ -2,6 +2,7 @@ package grepp.coffee.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import grepp.coffee.backend.MockTestConfig;
+import grepp.coffee.backend.controller.review.request.ReviewDeleteRequest;
 import grepp.coffee.backend.controller.review.request.ReviewRegisterRequest;
 import grepp.coffee.backend.controller.review.request.ReviewUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
@@ -42,7 +43,8 @@ public class ReviewControllerTest extends MockTestConfig {
     private ReviewRepository reviewRepository;
 
 
-    @AfterEach // 테스트 종료후 db 초기화
+    @AfterEach
+        // 테스트 종료후 db 초기화
     void tearDown() {
         reviewRepository.deleteAllInBatch();
         memberRepository.deleteAllInBatch();
@@ -105,6 +107,31 @@ public class ReviewControllerTest extends MockTestConfig {
         // when
         mockMvc.perform(get("/review/" + product.getProductId())
                         .contentType(MediaType.APPLICATION_JSON))
+                // then
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("리뷰 삭제 테스트")
+    void deleteReviewTest() throws Exception {
+
+        // given
+        Member member = MemberFixture.registerMember();
+        memberRepository.save(member);
+
+        Product product = ProductFixture.registerProduct();
+        productRepository.save(product);
+
+        Review review = ReviewFixture.createReview(member, product.getProductId());
+        reviewRepository.save(review);
+
+        ReviewDeleteRequest request = ReviewFixture.createReviewDeleteRequest(member.getMemberId());
+
+
+        // when
+        mockMvc.perform(delete("/review/" + review.getReviewId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 // then
                 .andExpect(status().isOk());
     }

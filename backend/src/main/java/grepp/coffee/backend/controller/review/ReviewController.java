@@ -1,6 +1,7 @@
 package grepp.coffee.backend.controller.review;
 
 
+import grepp.coffee.backend.controller.review.request.ReviewDeleteRequest;
 import grepp.coffee.backend.controller.review.request.ReviewRegisterRequest;
 import grepp.coffee.backend.controller.review.request.ReviewUpdateRequest;
 import grepp.coffee.backend.model.entity.review.Review;
@@ -44,5 +45,14 @@ public class ReviewController {
     public ResponseEntity<List<Review>> readReviewList(@PathVariable(name = "productId") Long productId) {
 
         return ResponseEntity.ok().body(reviewService.readReviewList(productId));
+    }
+
+    // 리뷰 삭제
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable(name = "reviewId") Long reviewId,
+                                             @Valid @RequestBody ReviewDeleteRequest request) {
+
+        reviewService.deleteReview(reviewId, request);
+        return ResponseEntity.ok().build();
     }
 }

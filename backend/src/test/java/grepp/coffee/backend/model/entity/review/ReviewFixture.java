@@ -1,5 +1,6 @@
 package grepp.coffee.backend.model.entity.review;
 
+import grepp.coffee.backend.controller.review.request.ReviewDeleteRequest;
 import grepp.coffee.backend.controller.review.request.ReviewRegisterRequest;
 import grepp.coffee.backend.controller.review.request.ReviewUpdateRequest;
 import grepp.coffee.backend.model.entity.member.Member;
@@ -31,6 +32,13 @@ public class ReviewFixture {
                 .productId(productId)
                 .memberId(memberId)
                 .review("리뷰 수정 테스트")
+                .build();
+    }
+
+    // 테스트용 리뷰 삭제 DTO 생성
+    public static ReviewDeleteRequest createReviewDeleteRequest(Long memberId) {
+        return ReviewDeleteRequest.builder()
+                .memberId(memberId)
                 .build();
     }
 }
