@@ -40,8 +40,10 @@ public class ProductServiceTest {
 
         Member adminMember = MemberFixture.registerAdminMember();
         memberRepository.save(adminMember);
+
         //when
         productService.discountProduct(adminMember, product.getProductId(), 1000);
+
         //then
         assertEquals(9000, product.getPrice() - product.getDiscount());
     }
@@ -53,10 +55,13 @@ public class ProductServiceTest {
         //given
         Product product = ProductFixture.registerProductWithCategory(Category.TEA);
         productRepository.save(product);
+
         Member adminMember = MemberFixture.registerAdminMember();
         memberRepository.save(adminMember);
+
         //when
         productService.discountCategoryProduct(adminMember, Category.TEA, 1000);
+
         //then
         assertEquals(9000, product.getPrice() - product.getDiscount());
     }
@@ -65,8 +70,10 @@ public class ProductServiceTest {
     @DisplayName("상품 개별 할인 등록 실패 테스트 - productId를 찾을 수 없음")
     @Transactional
     public void discountProductNotFoundTest() {
+        //given
         Member adminMember = MemberFixture.registerAdminMember();
         memberRepository.save(adminMember);
+
         //when && then
         assertThrows(ProductException.class, () -> {
             productService.discountProduct(adminMember, 1012143L, 1000);
@@ -83,6 +90,7 @@ public class ProductServiceTest {
 
         Member adminMember = MemberFixture.registerAdminMember();
         memberRepository.save(adminMember);
+
         //when && then
         assertThrows(ProductException.class, () -> {
             productService.discountProduct(adminMember, product.getProductId(), 100000);
@@ -99,6 +107,7 @@ public class ProductServiceTest {
 
         Member member = MemberFixture.registerMember();
         memberRepository.save(member);
+
         //when && then
         assertThrows(MemberException.class, () -> {
             productService.discountProduct(member, product.getProductId(), 100000);
@@ -117,6 +126,8 @@ public class ProductServiceTest {
 
         //when
         List<Product> productList = productService.readTop10Products();
+
+        //then
         assertEquals(10, productList.size());
         assertEquals(15, productList.get(0).getOrderCount());
     }
