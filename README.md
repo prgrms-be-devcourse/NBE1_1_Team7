@@ -58,7 +58,7 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 6. **Sequence Diagram**
 - [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
 
-```
+```mermaid
 sequenceDiagram
 		participant User as 사용자
 		participant WebApp as WEB
@@ -70,7 +70,6 @@ sequenceDiagram
 		DB ->> WebApp: 저장 완료
 		WebApp ->> User: 회원가입 성공 메시지
 ```
-
 
 
 
