@@ -1,14 +1,17 @@
 package grepp.coffee.backend.model.service.order;
 
 import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.member.CartException;
 import grepp.coffee.backend.common.exception.order.OrderException;
 import grepp.coffee.backend.controller.order.request.OrderRegisterRequest;
 import grepp.coffee.backend.controller.order.request.OrderUpdateRequest;
 import grepp.coffee.backend.controller.orderitem.request.OrderItemRequest;
+import grepp.coffee.backend.model.entity.cart.Cart;
 import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.entity.order.Order;
 import grepp.coffee.backend.model.entity.orderitem.OrderItem;
 import grepp.coffee.backend.model.entity.product.Product;
+import grepp.coffee.backend.model.repository.member.CartRepository;
 import grepp.coffee.backend.model.repository.order.OrderRepository;
 import grepp.coffee.backend.model.repository.orderitem.OrderItemRepository;
 import grepp.coffee.backend.model.service.member.CartService;
@@ -37,6 +40,7 @@ public class OrderService {
     private final ProductService productService;
     private final MemberService memberService;
     private final CartService cartService;
+    private final CartRepository cartRepository;
 
     // 사용자가 주문한 목록 조회 (memberId 사용)
     public List<Order> getUserOrders(Long memberId) {
@@ -47,7 +51,7 @@ public class OrderService {
         return orderRepository.findByMember(member);
     }
 
-    // 주문 등록
+    // 상세 페이지에서 바로 주문 등록
     @Transactional
     public void registerOrder(OrderRegisterRequest request) {
         // 회원 조회
@@ -74,11 +78,49 @@ public class OrderService {
                     .quantity(itemRequest.getQuantity())
                     .build();
             orderItemRepository.save(orderItem);
-
-            // 장바구니에서 해당 상품 삭제 (주문 완료 시)
-            cartService.deleteCartByOrder(product.getProductId(), member.getMemberId());
         }
     }
+
+    // 장바구니에서 주문 등록
+    @Transactional
+    public void registerOrderCartItems(Long memberId) {
+        // 회원 조회
+        Member member = memberService.findByIdOrThrowMemberException(memberId);
+
+        // 장바구니 항목 가져오기
+        List<Cart> cartItems = cartRepository.findByMember(member);
+        if (cartItems.isEmpty()) {
+            throw new CartException(ExceptionMessage.CART_NOT_FOUND);
+        }
+
+        // 주문 생성
+        Order order = Order.builder()
+                .member(member)
+                .orderStatus(PENDING)
+                .build();
+        orderRepository.save(order);
+
+        // 장바구니 항목들을 주문 항목으로 변환하여 저장
+        for (Cart cartItem : cartItems) {
+            Product product = cartItem.getProduct();
+
+            // 주문 수량 증가
+            product.increaseOrderCount(cartItem.getQuantity());
+
+            // OrderItem 생성
+            OrderItem orderItem = OrderItem.builder()
+                    .order(order)
+                    .product(product)
+                    .quantity(cartItem.getQuantity())
+                    .build();
+            orderItemRepository.save(orderItem);
+        }
+
+        // 장바구니에서 모든 상품 삭제
+        cartService.deleteCartByOrder(memberId);
+    }
+
+
 
     // 주문 메뉴 수정하기
     @Transactional
