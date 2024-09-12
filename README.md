@@ -58,6 +58,7 @@ Programmers DevCourse BE 1기 7팀 1차 팀 프로젝트
 6. **Sequence Diagram**
 - [Sequence Diagram](https://www.notion.so/Sequence-Diagram-f2ec5fd923524b52af5d4f3f29e7174b)
 
+
 ```mermaid
 sequenceDiagram
 		participant User as 사용자
@@ -70,6 +71,60 @@ sequenceDiagram
 		DB ->> WebApp: 저장 완료
 		WebApp ->> User: 회원가입 성공 메시지
 ```
+
+```mermaid
+sequenceDiagram
+    participant User as 사용자
+    participant WebApp as WEB
+    participant DB as DB
+    participant Session as 세션
+    
+    User ->> WebApp: 아이디, 비밀번호 입력
+    WebApp ->> DB: 아이디 및 비밀번호 검증
+    DB ->> WebApp: 검증 성공
+    WebApp ->> Session: 세션 생성
+    WebApp ->> User: 로그인 성공 메시지
+    
+    Note over WebApp, User: 세션 만료 시간 이후
+    
+    Session -->> WebApp: 세션 만료
+    WebApp ->> User: 자동 로그아웃
+```
+
+```mermaid
+```
+
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+```mermaid
+```
+
 
 
 
