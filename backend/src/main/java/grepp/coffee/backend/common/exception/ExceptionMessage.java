@@ -29,5 +29,6 @@ public enum ExceptionMessage {
     CART_NOT_FOUND("해당 장바구니를 찾을 수 없습니다.")
 
     ;
+
     private final String text;
 }

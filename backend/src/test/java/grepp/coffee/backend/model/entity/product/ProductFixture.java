@@ -9,7 +9,25 @@ public class ProductFixture {
         return Product.builder()
                 .productName("상품이름")
                 .category(Category.COFFEE)
-                .price(1)
+                .price(10000)
+                .orderCount(1)
+                .build();
+    }
+
+    public static Product registerProductWithOrderCount(int orderCount) {
+        return Product.builder()
+                .productName("상품이름")
+                .category(Category.COFFEE)
+                .price(10000)
+                .orderCount(orderCount)
+                .build();
+    }
+
+    public static Product registerProductWithCategory(Category category) {
+        return Product.builder()
+                .productName("상품이름")
+                .category(category)
+                .price(10000)
                 .orderCount(1)
                 .build();
     }
