@@ -26,6 +26,7 @@ public enum ExceptionMessage {
     MEMBER_NOT_LOGIN("로그인을 먼저 진행해주세요."),
     MEMBER_LOGIN_FAIL("이메일과 비밀번호를 다시 확인해주세요."),
 
+
     // Question
     QUESTION_NOT_FOUND("해당 FAQ를 찾을 수 없습니다."),
 

@@ -1,6 +1,8 @@
 package grepp.coffee.backend.controller.product;
 
 
+import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.controller.product.request.ProductDetailResponse;
 import grepp.coffee.backend.controller.product.request.ProductRegisterRequest;
 import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
@@ -34,11 +36,11 @@ public class ProductController {
 
     // 상품 상세 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailResponse> getProductDetails(@PathVariable("id") Long productId, HttpServletRequest request) {
+    public ResponseEntity<?> getProductDetails(@PathVariable("id") Long productId, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("loginMember") == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ExceptionMessage.MEMBER_NOT_LOGIN.getText());
         }
 
         ProductDetailResponse productDetailDTO = productService.getProductDetails(productId);
