@@ -690,7 +690,7 @@ com
             └── BackendApplication.java
 ```
 ### 9. **API 명세**
-- [Sequence Diagram](https://prgrms-be-devcourse.github.io/NBE1_1_Team7/swagger-api-docs)
+- [API 명세](https://prgrms-be-devcourse.github.io/NBE1_1_Team7/swagger-api-docs)
 
 *** 
 ## Appendix A. 참여자
