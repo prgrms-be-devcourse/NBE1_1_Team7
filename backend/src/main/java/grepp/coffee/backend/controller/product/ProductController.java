@@ -1,9 +1,12 @@
 package grepp.coffee.backend.controller.product;
 
 
+import grepp.coffee.backend.common.exception.ExceptionMessage;
+import grepp.coffee.backend.common.exception.member.MemberException;
 import grepp.coffee.backend.controller.product.request.ProductDetailResponse;
 import grepp.coffee.backend.controller.product.request.ProductRegisterRequest;
 import grepp.coffee.backend.controller.product.request.ProductUpdateRequest;
+import grepp.coffee.backend.model.entity.member.Member;
 import grepp.coffee.backend.model.entity.product.Product;
 import grepp.coffee.backend.model.entity.product.constant.Category;
 import grepp.coffee.backend.model.service.product.ProductService;
@@ -82,23 +85,26 @@ public class ProductController {
 
     // 상품 등록
     @PostMapping("/")
-    public ResponseEntity<Void> registerProduct(@Valid @RequestBody ProductRegisterRequest request) {
-        productService.registerProduct(request);
+    public ResponseEntity<Void> registerProduct(@SessionAttribute(value = "loginMember", required = false) Member member,
+                                                @Valid @RequestBody ProductRegisterRequest request) {
+        productService.registerProduct(member, request);
         return ResponseEntity.ok().build();
     }
 
     // 상품 수정
     @PutMapping("/{productId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable(name = "productId") Long productId,
+    public ResponseEntity<Void> updateProduct(@SessionAttribute(value = "loginMember", required = false) Member member,
+                                              @PathVariable(name = "productId") Long productId,
                                               @Valid @RequestBody ProductUpdateRequest request) {
-        productService.updateProduct(productId, request);
+        productService.updateProduct(member, productId, request);
         return ResponseEntity.ok().build();
     }
 
     // 상품 삭제
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "productId") Long productId) {
-        productService.deleteProduct(productId);
+    public ResponseEntity<Void> deleteProduct(@SessionAttribute(value = "loginMember", required = false) Member member,
+                                              @PathVariable(name = "productId") Long productId) {
+        productService.deleteProduct(member, productId);
         return ResponseEntity.ok().build();
     }
 
@@ -110,15 +116,17 @@ public class ProductController {
 
     //상품 할인 적용
     @PatchMapping("/{productId}")
-    public ResponseEntity<Void> discountProduct(@PathVariable Long productId, @RequestParam("discount") int discount) {
-        productService.discountProduct(productId, discount);
+    public ResponseEntity<Void> discountProduct(@SessionAttribute(value = "loginMember", required = false) Member member,
+                                                @PathVariable Long productId, @RequestParam("discount") int discount) {
+        productService.discountProduct(member, productId, discount);
         return ResponseEntity.ok().build();
     }
 
     //카테고리별 상품 할인 적용
     @PatchMapping("/category/{category}")
-    public ResponseEntity<Void> discountCategoryProduct(@PathVariable Category category, @RequestParam("discount") int discount) {
-        productService.discountCategoryProduct(category, discount);
+    public ResponseEntity<Void> discountCategoryProduct(@SessionAttribute(value = "loginMember", required = false) Member member,
+                                                        @PathVariable Category category, @RequestParam("discount") int discount) {
+        productService.discountCategoryProduct(member, category, discount);
         return ResponseEntity.ok().build();
     }
 

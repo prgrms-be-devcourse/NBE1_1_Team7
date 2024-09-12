@@ -14,4 +14,14 @@ public class MemberFixture {
                 .build();
     }
 
+    public static Member registerAdminMember() {
+        return Member.builder()
+                .email("admin@example.com")
+                .password("password".getBytes())
+                .point(1)
+                .address("address")
+                .postcode("postcode")
+                .build();
+    }
+
 }
